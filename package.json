@@ -1,0 +1,36 @@
+{
+  "name": "jianwai-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest run",
+    "preview": "vite preview --host 127.0.0.1",
+    "test:e2e": "node e2e/core-flow.mjs"
+  },
+  "dependencies": {
+    "@tiptap/core": "3.31.4",
+    "@tiptap/extension-link": "3.31.4",
+    "@tiptap/extension-placeholder": "3.31.4",
+    "@tiptap/extension-underline": "3.31.4",
+    "@tiptap/pm": "3.31.4",
+    "@tiptap/react": "3.31.4",
+    "@tiptap/starter-kit": "3.31.4",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-router-dom": "7.18.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "@vitejs/plugin-react": "5.0.4",
+    "jsdom": "26.1.0",
+    "typescript": "5.9.3",
+    "vite": "7.3.7",
+    "vitest": "5.0.3"
+  }
+}
