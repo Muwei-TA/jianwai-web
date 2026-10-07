@@ -40,11 +40,10 @@ export function Auth({ register = false }: { register?: boolean }) {
   return (
     <div className="auth-shell">
       <div className="auth-art">
-        <img src="/assets/blue-hour.svg" alt="夜幕初临的城市窗景" />
         <div>
-          <span className="eyebrow">A LITTLE OUTSIDE, A LITTLE CLOSER.</span>
+          <span className="eyebrow">A ROOM FOR WHAT MATTERS.</span>
           <h2>
-            在间外，
+            在黑匣子，
             <br />
             找到你的同好。
           </h2>
@@ -52,7 +51,7 @@ export function Auth({ register = false }: { register?: boolean }) {
         </div>
       </div>
       <form className="auth-form" onSubmit={submit}>
-        <span className="eyebrow">WELCOME TO JIANWAI</span>
+        <span className="eyebrow">WELCOME TO BLACK BOX</span>
         <h1>{register ? "初次相遇" : "欢迎回来"}</h1>
         <p className="muted">
           {register
@@ -105,7 +104,7 @@ export function Auth({ register = false }: { register?: boolean }) {
           {busy ? "正在连接…" : register ? "注册并发送验证邮件" : "登录"}
         </button>
         <p className="auth-switch">
-          {register ? "已经有账号？" : "初次来到间外？"}
+          {register ? "已经有账号？" : "初次来到黑匣子？"}
           <Link to={register ? "/login" : "/register"}>
             {register ? "去登录" : "创建账号"}
           </Link>

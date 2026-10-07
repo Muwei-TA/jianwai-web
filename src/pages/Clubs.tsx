@@ -29,7 +29,7 @@ export function Clubs() {
           {resource.data.items.map((club, i) => (
             <Link key={club.id} className="club-card" to={"/clubs/" + club.id}>
               <div className={"club-graphic tone-" + (i % 4)}>
-                <span>JIANWAI / CLUB {String(i + 1).padStart(2, "0")}</span>
+                <span>BLACK BOX / CLUB {String(i + 1).padStart(2, "0")}</span>
                 <strong>{club.name}</strong>
                 <i />
               </div>
@@ -420,7 +420,7 @@ export function Join() {
           输入朋友送给你的邀请码，看看下一次相遇。
         </p>
         <div className="join-stamp">
-          间外
+          黑匣子
           <br />
           <span>LET'S MAKE SOMETHING.</span>
         </div>

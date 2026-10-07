@@ -518,7 +518,7 @@ function WritingRoom({ draft, reload }: { draft: Draft; reload: () => void }) {
       url = URL.createObjectURL(blob),
       anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = "jianwai-draft-" + draft.id + ".json";
+    anchor.download = "blackbox-draft-" + draft.id + ".json";
     anchor.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
@@ -1006,7 +1006,7 @@ function WritingRoom({ draft, reload }: { draft: Draft; reload: () => void }) {
                     onChange={(e) => mutate({ scope: e.target.value as Scope })}
                   >
                     <option value="club">社团内 · 仅同团成员</option>
-                    <option value="members">社区成员 · 间外全站成员</option>
+                    <option value="members">社区成员 · 黑匣子全站成员</option>
                     <option value="public">公开 · 需团主审核</option>
                   </select>
                 </label>

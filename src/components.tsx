@@ -36,7 +36,7 @@ export function Empty({
 }) {
   return (
     <div className="empty">
-      <span className="empty-mark">间</span>
+      <span className="empty-mark">匣</span>
       <h2>{title}</h2>
       <div>{children}</div>
     </div>
@@ -148,7 +148,7 @@ export function PostCard({
           <img src={assetUrl(post.cover_asset_id)} alt="" loading="lazy" />
         ) : (
           <div className="typographic-cover">
-            <span>JIANWAI / JOURNAL</span>
+            <span>BLACK BOX / JOURNAL</span>
             <strong>{post.club.name}</strong>
             <i>一份来自兴趣的分享</i>
           </div>

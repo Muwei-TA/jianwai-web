@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useSession } from "./session";
 import { api, json, message } from "./api";
 import { ErrorNote } from "./components";
 export default function App() {
   const { session, loading, error, refresh, setSession } = useSession(),
-    navigate = useNavigate();
+    navigate = useNavigate(),
+    location = useLocation();
   const [logoutError, setLogoutError] = useState(""),
     [busy, setBusy] = useState(false);
   const logout = async () => {
@@ -36,13 +37,8 @@ export default function App() {
       </a>
       <header className="site-header">
         <div className="header-inner">
-          <Link to="/" className="wordmark" aria-label="间外首页">
-            间外<i>·</i>
-            <span>
-              JIAN
-              <br />
-              WAI
-            </span>
+          <Link to="/" className="wordmark" aria-label="黑匣子首页">
+            黑匣子<span>BLACK BOX</span>
           </Link>
           <nav className="primary-nav" aria-label="主导航">
             <NavLink to="/" end>
@@ -75,7 +71,7 @@ export default function App() {
           </div>
         </div>
       </header>
-      <main id="main" className="main">
+      <main id="main" className={location.pathname === "/" ? "main home-main" : "main"}>
         <ErrorNote error={logoutError || error} />
         {error && (
           <button
@@ -95,10 +91,10 @@ export default function App() {
       </main>
       <footer className="site-footer">
         <Link className="wordmark" to="/">
-          间外<i>·</i>
+          黑匣子
         </Link>
-        <p>给兴趣一个去处，给创作一点回声。</p>
-        <span>在相遇之外，在兴趣之间。</span>
+        <p>给兴趣一个房间，给表达一份回声。</p>
+        <span>BLACK BOX · INVITATION ONLY</span>
       </footer>
       <nav className="mobile-nav" aria-label="移动导航">
         <NavLink to="/" end>
