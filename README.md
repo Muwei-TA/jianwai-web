@@ -21,6 +21,7 @@ npm run dev
 | --- | --- | --- |
 | 首页与社团 | `/`、`/clubs`、`/clubs/:id` | 实际有权阅读的内容、加载/错误/空状态 |
 | 账号 | `/register`、`/login`、`/verify` | 注册、邮箱验证、登录退出；Cookie会话 |
+| 找回密码 | `/forgot-password`、`/reset-password` | 通过注册邮箱的一次性链接设置新密码 |
 | 入团 | `/join` | 预览不消耗，验证邮箱后接受邀请 |
 | 创作间 | `/workspace` | 多草稿与本人投稿状态 |
 | 写作 | `/write/:id` | 富文本云保存、版本冲突保留输入、导出、预览、发布 |

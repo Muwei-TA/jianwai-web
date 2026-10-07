@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
 import App from "./App";
 import { SessionProvider } from "./session";
 import Home from "./pages/Home";
-import { Auth, Verify } from "./pages/Auth";
+import { Auth, ForgotPassword, ResetPassword, Verify } from "./pages/Auth";
 import { Clubs, ClubPage, Join } from "./pages/Clubs";
 import Workspace from "./pages/Workspace";
 const EditorPage = lazy(() => import("./pages/Editor"));
@@ -21,6 +21,8 @@ const router = createBrowserRouter([
       { path: "/join", element: <Join /> },
       { path: "/login", element: <Auth /> },
       { path: "/register", element: <Auth register /> },
+      { path: "/forgot-password", element: <ForgotPassword /> },
+      { path: "/reset-password", element: <ResetPassword /> },
       { path: "/verify", element: <Verify /> },
       { path: "/workspace", element: <Workspace /> },
       {

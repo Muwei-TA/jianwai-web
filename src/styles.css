@@ -749,6 +749,12 @@ p {
   color: #af6845;
   margin-left: 9px;
 }
+.forgot-link, .recovery-back {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--orange);
+  font-size: 13px;
+}
 .join-shell {
   max-width: 1000px;
   display: grid;

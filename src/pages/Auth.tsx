@@ -97,6 +97,11 @@ export function Auth({ register = false }: { register?: boolean }) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
+        {!register && (
+          <Link className="forgot-link" to="/forgot-password">
+            忘记密码？
+          </Link>
+        )}
         {register && (
           <p className="helper">密码 10–128 个字符，昵称 2–30 个字符。</p>
         )}
@@ -211,6 +216,128 @@ export function Verify() {
           )}
         </>
       )}
+    </section>
+  );
+}
+
+export function ForgotPassword() {
+  const { loading } = useSession();
+  const [email, setEmail] = useState(""),
+    [error, setError] = useState(""),
+    [sent, setSent] = useState(false),
+    [busy, setBusy] = useState(false);
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    try {
+      await api("/auth/forgot-password", {
+        method: "POST",
+        body: json({ email: email.trim().toLowerCase() }),
+      });
+      setSent(true);
+    } catch (e) {
+      setError(message(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <section className="narrow card pad">
+      <span className="eyebrow">ACCOUNT RECOVERY</span>
+      <h1>找回密码</h1>
+      <p className="muted">填写注册邮箱，我们会发送一封限时的重置邮件。</p>
+      <ErrorNote error={error} />
+      {sent && (
+        <p className="success" role="status">
+          如果这个邮箱已注册，重置链接会发送到该邮箱。请检查收件箱和垃圾邮件。
+        </p>
+      )}
+      <form onSubmit={submit}>
+        <label>
+          注册邮箱
+          <input aria-label="注册邮箱" type="email" autoComplete="email" required value={email}
+            onChange={(e) => setEmail(e.target.value)} />
+        </label>
+        <button className="btn primary" disabled={busy || loading}>
+          {busy ? "正在发送…" : "发送重置邮件"}
+        </button>
+      </form>
+      <Link className="recovery-back" to="/login">返回登录</Link>
+    </section>
+  );
+}
+
+export function ResetPassword() {
+  const { refresh, loading } = useSession();
+  const [token] = useState(
+    () => new URLSearchParams(window.location.search).get("token") || "",
+  );
+  const [newPassword, setNewPassword] = useState(""),
+    [confirmPassword, setConfirmPassword] = useState(""),
+    [error, setError] = useState(""),
+    [done, setDone] = useState(false),
+    [busy, setBusy] = useState(false);
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).has("token"))
+      window.history.replaceState(window.history.state, "", window.location.pathname);
+  }, []);
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      setError("两次输入的密码不一致");
+      return;
+    }
+    setBusy(true);
+    setError("");
+    try {
+      await api("/auth/reset-password", {
+        method: "POST",
+        body: json({ token, new_password: newPassword }),
+      });
+      await refresh().catch(() => {});
+      setDone(true);
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (e) {
+      setError(message(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <section className="narrow card pad">
+      <span className="eyebrow">ACCOUNT RECOVERY</span>
+      <h1>设置新密码</h1>
+      <p className="muted">重置链接只能使用一次，有效期为 30 分钟。</p>
+      <ErrorNote error={error} />
+      {done ? (
+        <>
+          <p className="success" role="status">密码已更新，请用新密码登录。</p>
+          <Link className="btn primary" to="/login">去登录</Link>
+        </>
+      ) : token ? (
+        <form onSubmit={submit}>
+          <label>
+            新密码
+            <input aria-label="新密码" type="password" autoComplete="new-password"
+              minLength={10} maxLength={128} required value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)} />
+          </label>
+          <label>
+            确认新密码
+            <input aria-label="确认新密码" type="password" autoComplete="new-password"
+              minLength={10} maxLength={128} required value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)} />
+          </label>
+          <button className="btn primary" disabled={busy || loading}>
+            {busy ? "正在更新…" : "重置密码"}
+          </button>
+        </form>
+      ) : (
+        <p>重置链接无效，请重新申请。</p>
+      )}
+      <Link className="recovery-back" to="/forgot-password">重新申请重置邮件</Link>
     </section>
   );
 }
