@@ -156,7 +156,7 @@ export function PostCard({
       </Link>
       <div className="post-copy">
         <div className="meta">
-          <Link to={"/clubs/" + post.club.id}>{post.club.name}</Link>
+          <span>{post.club.name}</span>
           <span>{scopeNames[post.scope]}</span>
         </div>
         <h2>

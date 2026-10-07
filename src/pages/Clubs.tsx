@@ -17,8 +17,8 @@ export function Clubs() {
   const resource = useResource<Page<Club>>("/clubs");
   return (
     <>
-      <PageHead eyebrow="FIND YOUR PEOPLE" title="把兴趣，交给同好。">
-        每个社团都有自己的节奏。找一处适合你的地方。
+      <PageHead eyebrow="YOUR CLUBS" title="我的社团">
+        这里是你已加入的社团。使用邀请码，可以加入新的社团。
       </PageHead>
       {resource.loading ? (
         <Loading />
@@ -40,19 +40,17 @@ export function Clubs() {
                   <span className="muted small">
                     {club.member_count} 位同好
                   </span>
-                  <span className="tag">
-                    {club.my_role ? "已加入" : "了解社团 →"}
-                  </span>
+                  <span className="tag">已加入</span>
                 </div>
               </div>
             </Link>
           ))}
         </div>
       ) : (
-        <Empty title="社团的门，即将打开">
-          <p>这里会出现各个兴趣社团。已有邀请码？</p>
+        <Empty title="你还没有加入社团">
+          <p>输入朋友给你的邀请码，加入对应的社团。</p>
           <Link className="btn soft" to="/join">
-            查看我的邀请
+            使用邀请码
           </Link>
         </Empty>
       )}
@@ -90,22 +88,13 @@ export function ClubPage() {
                 写一篇新作品
               </Link>
             )}
-            {!club.my_role && (
-              <Link className="btn" to="/join">
-                接受邀请入团
-              </Link>
-            )}
           </div>
         }
       >
         {club.description}
         <p className="small">
           {club.member_count} 位同好 ·{" "}
-          {club.my_role === "owner"
-            ? "你是团主"
-            : club.my_role
-              ? "你已加入这个社团"
-              : "需邀请加入"}
+          {club.my_role === "owner" ? "你是团主" : "你已加入这个社团"}
         </p>
       </PageHead>
       <ErrorNote error={error} />

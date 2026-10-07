@@ -48,7 +48,7 @@ export default function App() {
             <NavLink to="/" end>
               发现
             </NavLink>
-            <NavLink to="/clubs">社团</NavLink>
+            <NavLink to="/clubs">我的社团</NavLink>
             <NavLink to="/workspace">创作间</NavLink>
             {session?.user && <NavLink to="/reviews">审核</NavLink>}
           </nav>
@@ -104,7 +104,7 @@ export default function App() {
         <NavLink to="/" end>
           发现
         </NavLink>
-        <NavLink to="/clubs">社团</NavLink>
+        <NavLink to="/clubs">我的社团</NavLink>
         <NavLink to="/workspace">创作间</NavLink>
         <NavLink to="/join">入团</NavLink>
       </nav>

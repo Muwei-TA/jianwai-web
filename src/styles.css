@@ -537,7 +537,7 @@ p {
   justify-content: space-between;
   gap: 12px;
 }
-.meta > span {
+.meta > span:last-child {
   color: #929b84;
 }
 .byline {

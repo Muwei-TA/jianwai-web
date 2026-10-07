@@ -20,15 +20,15 @@ export default function Home() {
         电影、游戏、阅读与创作。把喜欢的事，认真聊一聊。
       </PageHead>
       <div className="interest-strip">
-        <span>兴趣坐标</span>
+        <span>我的社团</span>
         {clubs.data?.items.slice(0, 5).map((club) => (
           <Link key={club.id} to={"/clubs/" + club.id}>
             <i style={{ background: club.accent || "#8b957c" }} />
             {club.name}
           </Link>
         ))}
-        <Link to="/clubs" className="all-clubs">
-          探索社团 ↗
+        <Link to={clubs.data?.items.length ? "/clubs" : "/join"} className="all-clubs">
+          {clubs.data?.items.length ? "查看我的社团 ↗" : "使用邀请码 ↗"}
         </Link>
       </div>
       <section className="magazine-section">

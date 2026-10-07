@@ -19,9 +19,9 @@ export function Article({ post }: { post: PostType }) {
     <article className="reading-paper">
       <header className="article-head">
         <div className="row wrap">
-          <Link className="category-label" to={"/clubs/" + post.club.id}>
+          <span className="category-label">
             {post.club.name}
-          </Link>
+          </span>
           <span className="tag">{scopeNames[post.scope]}</span>
           {post.status !== "published" && (
             <span className="tag orange">{statusNames[post.status]}</span>

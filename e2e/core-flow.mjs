@@ -13,6 +13,7 @@ const web = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const api = path.resolve(process.env.JIANWAI_API_REPO || path.join(web, '../jianwai-api'));
 const python = process.env.JIANWAI_API_PYTHON || path.join(api, '.venv/bin/python');
 const temp = await mkdtemp(path.join(os.tmpdir(), 'jianwai-e2e-'));
+const fixtureImage = path.join(temp, 'image.png');
 const output = path.join(web, 'test-results/core-flow');
 await mkdir(output, { recursive: true });
 const origin = 'http://127.0.0.1:5175';
@@ -76,6 +77,7 @@ try {
   // Every run gets its own file database, media and mail directory.
   command(['-m', 'alembic', 'upgrade', 'head']);
   command(['-m', 'app.cli', 'bootstrap', '--email', 'founder@example.com', '--display-name', '影像社团主', '--club-slug', 'film-club', '--club-name', '影像漫游']);
+  command(['-c', 'from PIL import Image; import sys; Image.new("RGB", (2, 2), "white").save(sys.argv[1])', fixtureImage]);
   const apiProcess = server(python, ['-m', 'uvicorn', 'app.main:app', '--host', '127.0.0.1', '--port', '8015', '--no-access-log'], api, testEnv);
   await waitForServer(backend + '/api/v1/health', apiProcess);
   const webProcess = server('npm', ['run', 'dev', '--', '--host', '127.0.0.1', '--port', '5175', '--strictPort'], web, { ...process.env, VITE_API_PROXY_TARGET: backend });
@@ -90,6 +92,9 @@ try {
   await login(ownerPage, 'founder@example.com');
   const clubs = await (await apiRequest(founder, '/clubs')).json();
   const club = clubs.items[0]; assert.ok(club.id);
+  await guestPage.goto(origin + '/clubs');
+  await expect(guestPage.getByText('你还没有加入社团')).toBeVisible();
+  await expect(guestPage.getByText(club.name)).toHaveCount(0);
   await ownerPage.goto(origin + '/clubs/' + club.id);
   await ownerPage.locator('summary').filter({ hasText: '邀请同好' }).click();
   await ownerPage.getByLabel('绑定邮箱', { exact: true }).fill('writer@example.com');
@@ -120,6 +125,8 @@ try {
   assert.equal(before.items.find(i => i.id === invitation.id).status, 'active');
   await page.getByRole('button', { name: '接受邀请', exact: true }).click();
   await page.waitForURL('**/clubs/' + club.id);
+  await page.goto(origin + '/clubs');
+  await expect(page.getByText(club.name).first()).toBeVisible();
   record('preview does not consume; acceptance joins the verified account');
 
   await page.goto(origin + '/workspace');
@@ -142,7 +149,7 @@ try {
   await editor.press('Enter');
 
   const uploaded = page.waitForResponse(r => r.url().endsWith('/drafts/' + draft.id + '/media') && r.request().method() === 'POST');
-  await page.getByLabel('上传正文图片', { exact: true }).setInputFiles(path.join(web, 'public/assets/window-light.png'));
+  await page.getByLabel('上传正文图片', { exact: true }).setInputFiles(fixtureImage);
   const assetResponse = await uploaded; assert.equal(assetResponse.status(), 201);
   const asset = await assetResponse.json();
   await page.getByLabel('图片图注', { exact: true }).fill('午后的窗边，光落在胶片与纸页上。');
